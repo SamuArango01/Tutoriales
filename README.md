@@ -78,5 +78,3 @@ tienda/
 ├── services.py        # Capa de Servicio (Orquestación)
 ├── views.py           # Class-Based Views
 └── models.py          # Modelos de Django
-
-

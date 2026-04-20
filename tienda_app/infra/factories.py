@@ -12,7 +12,8 @@ class MockPaymentProcessor:
 class PaymentFactory:
     @staticmethod
     def get_processor():
-        provider = os.getenv('PAYMENT_PROVIDER', 'BANCO')
+        # La infraestructura se decide por configuracion del entorno.
+        provider = os.getenv('PAYMENT_PROVIDER', 'BANCO').strip().upper()
 
         if provider == 'MOCK':
             return MockPaymentProcessor()

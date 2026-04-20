@@ -5,7 +5,7 @@ from .domain.logic import CalculadorImpuestos
 from .models import Inventario, Libro
 
 
-class CompraService:
+class CompraRapidaService:
     """
     SERVICE LAYER: Orquesta la interacción entre el dominio,
     la infraestructura y la base de datos.
@@ -20,9 +20,12 @@ class CompraService:
         total = CalculadorImpuestos.obtener_total_con_iva(libro.precio)
         return {"libro": libro, "total": total}
 
-    def ejecutar_compra(self, libro_id, cantidad=1, direccion="", usuario=None):
+    def procesar(self, libro_id, cantidad=1, direccion="", usuario=None):
         libro = get_object_or_404(Libro, id=libro_id)
-        inv = get_object_or_404(Inventario, libro=libro)
+        inv = Inventario.objects.filter(libro=libro).first()
+
+        if not inv:
+            raise ValueError("No hay inventario configurado para este libro.")
 
         if inv.cantidad < cantidad:
             raise ValueError("No hay suficiente stock para completar la compra.")
@@ -45,3 +48,9 @@ class CompraService:
         inv.save()
 
         return orden.total
+
+    def ejecutar_compra(self, libro_id, cantidad=1, direccion="", usuario=None):
+        return self.procesar(libro_id, cantidad=cantidad, direccion=direccion, usuario=usuario)
+
+
+CompraService = CompraRapidaService

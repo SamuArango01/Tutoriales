@@ -52,7 +52,7 @@ python manage.py migrate
 ### 3. Crear Datos e Prueba
 Ejecute el shell de Django: python manage.py shell
 ```bash
-from tienda.models import Libro, Inventario
+from tienda_app.models import Libro, Inventario
 l = Libro.objects.create(titulo="Arquitectura Limpia", precio=250.0)
 Inventario.objects.create(libro=l, cantidad=5)
 ```

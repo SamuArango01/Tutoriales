@@ -15,6 +15,20 @@ class CompraAPIView(APIView):
     Payload: {"libro_id": 1, "direccion_envio": "Calle 123", "cantidad": 1}
     """
 
+    def get(self, request):
+        return Response(
+            {
+                'endpoint': '/api/v1/comprar/',
+                'metodo': 'POST',
+                'payload_ejemplo': {
+                    'libro_id': 1,
+                    'direccion_envio': 'Calle 123',
+                    'cantidad': 1,
+                },
+            },
+            status=status.HTTP_200_OK,
+        )
+
     def post(self, request):
         serializer = OrdenInputSerializer(data=request.data)
         if not serializer.is_valid():

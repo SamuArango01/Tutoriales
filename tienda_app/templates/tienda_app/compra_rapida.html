@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Compra Rápida</title>
+    <style>
+        :root {
+            --bg: #111827;
+            --card: #0b1220;
+            --text: #f9fafb;
+            --muted: #9ca3af;
+            --accent: #f59e0b;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: radial-gradient(circle at top, rgba(245, 158, 11, 0.18), transparent 34%), var(--bg);
+            color: var(--text);
+        }
+
+        .wrap {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 56px 20px 72px;
+        }
+
+        .card {
+            background: rgba(11, 18, 32, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--accent);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        h1 {
+            margin: 10px 0 8px;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            line-height: 1;
+        }
+
+        .meta, .price {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .notice {
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin: 18px 0;
+        }
+
+        .success {
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.35);
+            color: #bbf7d0;
+        }
+
+        .error {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #fecaca;
+        }
+
+        form {
+            margin-top: 24px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 700;
+            cursor: pointer;
+            background: var(--accent);
+            color: #111827;
+        }
+
+        a {
+            color: #93c5fd;
+            text-decoration: none;
+        }
+
+        .footer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap">
+        <section class="card">
+            <div class="eyebrow">Compra Rápida</div>
+            <h1>Procesar compra</h1>
+
+            {% if mensaje_exito %}
+                <div class="notice success">{{ mensaje_exito }}</div>
+                <p class="footer"><a href="/">Volver a la tienda</a></p>
+            {% else %}
+                {% if error %}
+                    <div class="notice error">{{ error }}</div>
+                {% endif %}
+
+                <p class="meta">Libro: <strong>{{ libro.titulo }}</strong></p>
+                <p class="price">Precio final con IVA: ${{ total }}</p>
+                <p class="meta">La transacción se delega al service layer y el pago queda auditado en un archivo de log en la raíz del proyecto.</p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit">Comprar ya</button>
+                </form>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

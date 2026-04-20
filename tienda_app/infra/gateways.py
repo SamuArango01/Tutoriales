@@ -1,4 +1,6 @@
 import datetime
+from pathlib import Path
+
 from ..domain.interfaces import ProcesadorPago
 
 class BancoNacionalProcesador(ProcesadorPago):
@@ -8,6 +10,8 @@ class BancoNacionalProcesador(ProcesadorPago):
     """
     def pagar(self, monto: float) -> bool:
         # Simulamos una operación de red o persistencia externa
-        with open("pagos_locales.log", "a") as f:
+        archivo_log = Path(__file__).resolve().parents[2] / "pagos_locales_Samuel_Arango_Echeverri.log"
+
+        with archivo_log.open("a", encoding="utf-8") as f:
             f.write(f"[{datetime.datetime.now()}] BANCO NACIONAL - Cobro procesado: ${monto}\n")
         return True

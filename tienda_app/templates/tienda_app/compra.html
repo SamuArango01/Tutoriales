@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tienda Grado Empresarial</title>
+</head>
+<body>
+    <h1>Procesar Compra</h1>
+
+    {% if mensaje_exito %}
+        <div style="color: green; font-weight: bold;">{{ mensaje_exito }}</div>
+        <a href="/">Volver a la tienda</a>
+    {% else %}
+        {% if error %}
+            <div style="color: red; border: 1px solid red; padding: 10px;">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <h2>{{ libro.titulo }}</h2>
+        <p>Precio con IVA: <strong>${{ total }}</strong></p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" style="padding: 10px 20px; background: #28a745; color: white; border: none; cursor: pointer;">
+                Confirmar Pago con Banco Nacional
+            </button>
+        </form>
+    {% endif %}
+</body>
+</html>

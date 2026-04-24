@@ -3,9 +3,28 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from tienda_app.infra.factories import PaymentFactory
+from tienda_app.models import Libro
 from tienda_app.services import CompraService
 
-from .serializers import OrdenInputSerializer
+from .serializers import LibroSerializer, OrdenInputSerializer
+
+
+class ProductosAPIView(APIView):
+    """
+    Endpoint de coexistencia del monolito Django.
+    GET /api/v1/productos/
+    """
+
+    def get(self, request):
+        productos = Libro.objects.select_related('inventario').all().order_by('id')
+        serializer = LibroSerializer(productos, many=True)
+        return Response(
+            {
+                'origen': 'Django monolito (v1)',
+                'productos': serializer.data,
+            },
+            status=status.HTTP_200_OK,
+        )
 
 
 class CompraAPIView(APIView):
